@@ -223,4 +223,75 @@ class linkLogic {
 		}
 		return false;
 	}
+	public static canMove(id1:number, id2:number):boolean//判断是否可移动
+	{
+		var l1row:number = Math.floor( GameData.elements[id1].locataion/GameData.MaxRow );
+		var l1col:number = GameData.elements[id1].locataion % GameData.MaxColumn;
+
+		var l2row:number = Math.floor( GameData.elements[id2].locataion/GameData.MaxRow );
+		var l2col:number = GameData.elements[id2].locataion % GameData.MaxColumn;
+
+		if (l1row == l2row) {
+			if ( Math.abs( l1col-l2col ) == 1 ) {
+				return true;
+			}
+		}
+		if (l1col == l2col) {
+			if ( Math.abs( l1row-l2row ) == 1 ) {
+				return true;
+			}
+		}
+		return false;
+	}
+	public static changeOrder() //全局乱序算法
+	{
+		var arr:number[] =[];
+		for (var i = 0; i < GameData.MaxRow; i++) 
+		{
+			for (var t = 0; t < GameData.MaxColumn; t++) 
+			{
+				if (GameData.mapData[i][t] != -1) 
+				{
+					arr.push(GameData.mapData[i][t]);
+				}
+			}
+		}
+		var index:number = 0;
+		for (var i = 0; i < GameData.MaxRow; i++) 
+		{
+			for (var t = 0; t < GameData.MaxColumn; t++) 
+			{
+				index = Math.floor( Math.random() * arr.length );
+				GameData.mapData[i][t] = arr[index];
+				GameData.elements[ arr[index] ].locataion = i * GameData.MaxColumn + t;
+				arr.slice(index, i);
+			}
+		}
+	}
+
+	public static isHaveLineByIndex(p1:number, p2:number):boolean
+	{
+		var p1n:number = p1;
+		var p2n:number = p2;
+
+		var p1id:number = GameData.mapData[ Math.floor(p1 / GameData.MaxColumn) ][ p1 % GameData.MaxRow ];
+		var p2id:number = GameData.mapData[ Math.floor(p2 / GameData.MaxColumn) ][ p2 % GameData.MaxRow ];
+
+		GameData.mapData[ Math.floor(p1 / GameData.MaxColumn) ][ p1 % GameData.MaxRow ] = p2id;
+		GameData.mapData[ Math.floor(p2 / GameData.MaxColumn) ][ p2 % GameData.MaxRow ] = p1id;
+
+		var rel:boolean = linkLogic.isHaveLine();
+		if (rel) 
+		{
+			GameData.elements[p1id].locataion = p2;	
+			GameData.elements[p2id].locataion = p1;	
+			return true;
+		}
+		else
+		{
+			GameData.mapData[ Math.floor(p1 / GameData.MaxColumn) ][ p1 % GameData.MaxRow ] = p1id;
+			GameData.mapData[ Math.floor(p2 / GameData.MaxColumn) ][ p2 % GameData.MaxRow ] = p2id;
+		}
+		return false;
+	}
 }

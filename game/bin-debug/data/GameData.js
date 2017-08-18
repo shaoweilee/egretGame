@@ -10,7 +10,6 @@ var GameData = (function () {
                 GameData.mapData[t].push(-2); //-1表示当前这块地图无法使用，-2表示是空地图，可以用，但没放东西。
             }
         }
-        console.log(GameData.mapData);
         GameData.levelReq = new levelRequire();
         GameData.elements = [];
         GameData.unUsedElements = [];
