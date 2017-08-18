@@ -1,0 +1,15 @@
+{
+	"groups": [
+		{
+			"name": "preload",
+			"keys": "l1_json"
+		}
+	],
+	"resources": [
+		{
+			"name": "l1_json",
+			"type": "json",
+			"url": "res/l1.json"
+		}
+	]
+}
